@@ -6,7 +6,7 @@ bool running = false;
 bool setted = false;
 
 template <std::size_t N, std::size_t K>
-void setTypeFastFixed(auto &func, int n, int k)
+void set_type_fast_fixed(auto &func, int n, int k)
 {
     if (n == N && k == K && !setted)
     {
@@ -16,7 +16,7 @@ void setTypeFastFixed(auto &func, int n, int k)
 }
 
 template <std::size_t N, std::size_t K>
-void setTypeFixed(auto &func, int n, int k)
+void set_type_fixed(auto &func, int n, int k)
 {
     if (n == N && k == K && !setted)
     {
@@ -25,7 +25,7 @@ void setTypeFixed(auto &func, int n, int k)
     }
 }
 
-void setTypeFloat(auto &func, std::string type)
+void set_type_float(auto &func, std::string type)
 {
     if (type == "FLOAT" && !setted)
     {
@@ -34,7 +34,7 @@ void setTypeFloat(auto &func, std::string type)
     }
 }
 
-void setTypeDouble(auto &func, std::string type)
+void set_type_double(auto &func, std::string type)
 {
     if (type == "DOUBLE" && !setted)
     {
@@ -43,10 +43,9 @@ void setTypeDouble(auto &func, std::string type)
     }
 }
 
-void setType(std::string type, auto func)
+void set_type(std::string type, auto func)
 {
     size_t n = 0, k = 0;
-    bool f;
     if (type != "FLOAT" && type != "DOUBLE")
     {
         int res = sscanf(type.c_str(), "FIXED(%zu, %zu)", &n, &k);
@@ -61,10 +60,10 @@ void setType(std::string type, auto func)
         }
     }
     setted = false;
-#define FIXED(N, K) setTypeFixed<N, K>(func, n, k)
-#define FAST_FIXED(N, K) setTypeFastFixed<N, K>(func, n, k)
-#define FLOAT setTypeFloat(func, type)
-#define DOUBLE setTypeDouble(func, type)
+#define FIXED(N, K) set_type_fixed<N, K>(func, n, k)
+#define FAST_FIXED(N, K) set_type_fast_fixed<N, K>(func, n, k)
+#define FLOAT set_type_float(func, type)
+#define DOUBLE set_type_double(func, type)
     TYPES;
 #undef FIXED
 #undef FAST_FIXED
@@ -136,9 +135,9 @@ int main(int argc, char *argv[])
 
     // std::cout << cur_n << ' ' << cur_m << '\n';
     // SIM::DynamicSimulation<Fixed<>, Fixed<>, Fixed<>>(file_data).run();
-    setType(ptype, [&]<typename T1>()
-            { setType(vtype, [&]<typename T2>()
-                      { setType(vflowtype, [&]<typename T3>()
+    set_type(ptype, [&]<typename T1>()
+            { set_type(vtype, [&]<typename T2>()
+                      { set_type(vflowtype, [&]<typename T3>()
                                 {
             // std::cout << "GOOD ATTEMPT!\n";
 
