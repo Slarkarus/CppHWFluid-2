@@ -2,20 +2,20 @@
 CC=g++
 CCV=-std=c++23
 INC=-I./include
-TYPES=-DTYPES=""
-SIZES=-DSIZES="S(36, 84)"
+DTYPES="FIXED(32, 16),FAST_FIXED(32, 16), FIXED(64, 32)"
+DSIZES="S(36, 84)"
 
 # Run options
-PT=--p-type="FIXED(64, 32)"
-VT=--v-type="FIXED(64, 32)"
-VFT=--v-flow-type="FIXED(64, 32)"
-FILE=--file-name="field2.txt"
+PT="FIXED(64, 32)"
+VT="FIXED(64, 32)"
+VFT="FAST_FIXED(32, 16)"
+FILE="field2.txt"
 
 all:
-	$(CC) $(CCV) $(INC) -o fluid.out fluid.cpp $(TYPES) $(SIZES)
+	$(CC) $(CCV) $(INC) -o fluid.out fluid.cpp -DTYPES=$(DTYPES) -DSIZES=$(DSIZES)
 
 run:
-	./fluid.out $(PT) $(VT) $(VFT) $(FILE)
+	./fluid.out --p-type=$(PT) --v-type=$(VT) --v-flow-type=$(VFT) --file-name=$(FILE)
 
 build_and_run: all run
 
